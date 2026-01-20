@@ -1,0 +1,40 @@
+name: Oppdater readme
+
+permissions:
+  contents: write
+  
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+    - name: Checkout kode
+      uses: actions/checkout@v3
+
+    - name: Sett opp Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9.13'
+
+    - name: Kjør tester
+      run: |
+        python3 oppdater-readme.py
+        
+    - name: commit filer
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git diff-index --quiet HEAD || (git commit -a -m "Oppdaterer oppgavestatuser i readme" --allow-empty)
+
+    - name: push endringer
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
