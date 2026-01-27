@@ -1,12 +1,9 @@
-
 from pathlib import Path
-
-base_dir = Path(".")
 
 er_konkurransemappe = lambda x: x.is_dir() and x.name.startswith("20") and len(x.name) == 4
 er_pythonfil = lambda x: x.name.endswith(".py")
 
-konkurransemapper = [p for p in base_dir.iterdir() if er_konkurransemappe(p)]
+konkurransemapper = [p for p in Path(".").iterdir() if er_konkurransemappe(p)]
 
 løsninger = {k.name: {} for k in konkurransemapper}
 

@@ -22,7 +22,7 @@ jobs:
       with:
         python-version: '3.9.13'
 
-    - name: Kjør tester
+    - name: Oppdater readme
       run: |
         python3 oppdater-readme.py
         
