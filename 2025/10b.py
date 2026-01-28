@@ -14,7 +14,8 @@ def raskeste(joltage, knapper):
     ns = [(0, sum(joltage), joltage, [])]
 
     while True:
-        _,s,jolt,ks = heapq.heappop(ns)
+        minsteg,s,jolt,ks = heapq.heappop(ns)
+        print(minsteg, f"{len(ks)}/{len(knapper)}", len(ns))
 
         gj = sum(jolt)
         steg = len(knapper[len(ks)])
@@ -33,7 +34,7 @@ def raskeste(joltage, knapper):
             ny = ny_joltage(jolt, len(ks), k)
             if min(ny) < 0:
                 break
-            heapq.heappush(ns, (sum(ks)+k, s-tot, ny, ks+[k]))
+            heapq.heappush(ns, (sum(ks)+k+((gj-1)//len(knapper[len(ks)+1])), s-tot, ny, ks+[k]))
 
 
 s = 0
@@ -43,4 +44,5 @@ for i,linje in enumerate(linjer):
     
     knapper = sorted(knapper, key=lambda x: len(x), reverse=True)
     s += raskeste(joltage, knapper)
+    print(s)
 print(s)
