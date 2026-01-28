@@ -25,5 +25,4 @@ for linje in linjer:
 
     s += int(er_safe(lst))
 print(s)
-
 # 369
