@@ -45,7 +45,7 @@ fn er_mulig_uttrekk(spill : &str, tillatt: &HashMap<&str, i32>) -> bool {
 fn main() -> io::Result<()> {
     let input : String = fs::read_to_string("02.txt")?;
 
-    let mut tillatt = HashMap::new(); // mutable so we can insert
+    let mut tillatt = HashMap::new();
     tillatt.insert("red", 12);
     tillatt.insert("green", 13);
     tillatt.insert("blue", 14);
