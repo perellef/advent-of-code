@@ -1,3 +1,4 @@
+// løst
 
 use std::fs;
 use std::io;
@@ -11,8 +12,8 @@ fn main() -> io::Result<()> {
     let mut map: HashMap<(i32, i32), (i32, i32)> = HashMap::new();
     
     let mut gears: HashSet<(i32, i32)> = HashSet::new();
-    let ikkegear = ['.', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    let siffer = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let ikkegear = ['.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let siffer = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     
 
     input
@@ -44,7 +45,7 @@ fn main() -> io::Result<()> {
         .lines()
         .enumerate()
         .for_each(|(radnr, s)| (0..kolonner)
-            .for_each(|start| ((start+1)..kolonner) 
+            .for_each(|start| ((start+1)..(kolonner+1)) 
                 .map(|slutt|
                     (
                         slutt, 
@@ -55,14 +56,14 @@ fn main() -> io::Result<()> {
                     )
                 )
                 .filter(|(_, substring)| substring.chars().all(|c| siffer.contains(&c)))
-                .filter(|(slutt, _)| *slutt == kolonner-1 || !siffer.contains(&s.chars().nth(*slutt).unwrap()))
+                .filter(|(slutt, _)| *slutt == kolonner || !siffer.contains(&s.chars().nth(*slutt).unwrap()))
                 .filter_map(|(slutt, tall)| tall.parse::<i32>().ok().map(|num| (slutt, num)))
                 .for_each(|(slutt, tall)| {
                     if !map.contains_key(&(radnr as i32, start as i32)) {
                         alle_tall.insert((radnr as i32, start as i32), tall);
                     }
 
-                    (start..(slutt+1))
+                    (start..slutt)
                         .for_each(|kolnr| {
                             if !map.contains_key(&(radnr as i32, kolnr as i32)) {
                                 map.insert((radnr as i32, kolnr as i32), (radnr as i32, start as i32));
@@ -88,7 +89,7 @@ fn main() -> io::Result<()> {
         .sum();
 
     println!("{}", tall);
-    // 441366 - FEIL
+    // 530495
 
     Ok(())
 }
