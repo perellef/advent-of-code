@@ -7,17 +7,10 @@ def transpose(m):
     return [''.join(m[r][k] for r in range(len(m))) for k in range(len(m[0]))]
 
 def tilt(m, direction):
-    f1 = lambda x: x
-    f2 = lambda x: x
-    reverse = False
+    f = lambda x: transpose(x) if direction in "SN" else x
+    reverse = direction in "NW"
 
-    if direction in "SN":
-        f1 = lambda x: transpose(x)
-        f2 = lambda x: transpose(x)
-    if direction in "NW":
-        reverse = True
-
-    return f2(['#'.join([''.join(sorted(el, reverse=reverse)) for el in e.split("#")]) for e in f1(m)])
+    return f(['#'.join(''.join(sorted(el, reverse=reverse)) for el in e.split("#")) for e in f(m)])
 
 def vekt(m):
     s = 0
@@ -34,16 +27,11 @@ besøkt = {}
 i = 0
 while i < N:
     besøkt['\n'.join(matrise)] = i
-    
-    if i % 1000 == 0:
-        print(i, vekt(matrise))
 
-    før = matrise
     for direction in "NWSE":
         matrise = tilt(matrise, direction)
     
     i += 1
-    
     if '\n'.join(matrise) in besøkt:
         delta = i-besøkt['\n'.join(matrise)]
         if (N-i) % delta == 0:
